@@ -5,7 +5,7 @@ from .models import Post, AboutUs
 from django.core.paginator import Paginator
 from .forms import ContactForm, RegisterForm , LoginForm
 from django.contrib import messages
-from django.contrib.auth import authenticate,login as auth_login
+from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 import logging
 # Create your views here.
 
@@ -95,3 +95,10 @@ def login(request):
 def dashboard(request):
     blog_title = "MY Posts"
     return render(request,'blog/dashboard.html',{'blog_title':blog_title})
+
+def logout(request):
+    auth_logout(request)
+    return redirect('blog:index')
+
+def forgot_password(request):
+    return render(request,'blog/forgot_password.html')
