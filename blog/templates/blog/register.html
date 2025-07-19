@@ -18,6 +18,14 @@
         <span class="text-danger">{{error}}</span>
       </div>
           {% endfor %}
+      <!--Success Message-->
+          {% if messages %}
+            {% for message in messages%}
+                <div class ="alert alert-success">
+                  {{message}}
+                </div>
+            {% endfor %}
+          {%endif%}
           <div class="my-3">
             <form method="post">
               {% csrf_token %}
@@ -38,7 +46,7 @@
                   class="form-control"
                   id="email"
                   name="email"
-                  value="{{form.username.email|default:''}}"
+                  value="{{form.email.value|default:''}}"
                 />
               </div>
               <div class="form-group">
