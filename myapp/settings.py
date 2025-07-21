@@ -145,3 +145,11 @@ LOGGING  = {
         "level":"DEBUG"
     }
 }
+
+DEFAULT_FROM_EMAIL='your_email@code.comxxx'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'sandbox.smtp.mailtrap.io'
+EMAIL_PORT  = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER='ed822e9736170b'
+EMAIL_HOST_PASSWORD = '2b6c03ec0666aa'
