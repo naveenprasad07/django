@@ -3,11 +3,11 @@ from django.http import HttpResponse,Http404
 from django.urls import reverse
 from .models import Post, AboutUs
 from django.core.paginator import Paginator
-from .forms import ContactForm, RegisterForm , LoginForm,ForgotPasswordForm
+from .forms import ContactForm, RegisterForm , LoginForm,ForgotPasswordForm, ResetPasswordForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login as auth_login,logout as auth_logout
 from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import urlsafe_base64_encode , urlsafe_base64_decode
 from django.utils.encoding  import force_bytes
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -124,7 +124,8 @@ def forgot_password(request):
             message = render_to_string('blog/reset_password_email.html',{
                 'domain':domain,
                 'uid':uid,
-                'token':token
+                'token':token,
+                "protocol": "http",
             })
             send_mail(subject,message,'noreply@code.com',[email])
             messages.success(request,'Email has been sent')
