@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,Http404
 from django.urls import reverse
 from .models import Post, AboutUs,Category
@@ -92,6 +92,7 @@ def login(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+            print(password)
             user = authenticate(username=username,password=password)
             if user is not None:
                 print("LOGIN SUCCESS")
@@ -174,3 +175,17 @@ def new_post(request):
             return redirect('blog:dashboard')
 
     return render(request,'blog/new_post.html',{'categories':categories,'form':form})
+
+def edit_post(request,post_id):
+    categories = Category.objects.all()
+    post = get_object_or_404(Post, id=post_id)
+    form = PostForm()
+    if request.method == "POST":
+        #form
+        form = PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Post Updated Succesfully!')
+            return redirect('blog:dashboard')
+
+    return render(request,'blog/edit_post.html', {'categories': categories, 'post': post, 'form': form})
