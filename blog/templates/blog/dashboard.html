@@ -57,6 +57,9 @@
                   onclick=confirmBeforeDelete(`{% url 'blog:delete_post' post_id=post.id %}`)
                   >Delete Post</button
                 >
+                {% if not post.is_published%}
+                <a href="{% url 'blog:publish_post' post_id=post.id %}" class="btn btn-success btn-sm">Publish</a>
+                {% endif %}
               </div>
             </div>
           </div>
