@@ -52,10 +52,10 @@
                   href="{% url 'blog:edit_post' post_id=post.id %}"
                   >Edit Post</a
                 >
-                <a
-                  class="btn btn-sm btn-error"
-                  href="{% url 'blog:edit_post' post_id=post.id %}"
-                  >Delete Post</a
+                <button
+                  class="btn btn-sm btn-danger"
+                  onclick=confirmBeforeDelete(`{% url 'blog:delete_post' post_id=post.id %}`)
+                  >Delete Post</button
                 >
               </div>
             </div>
@@ -120,5 +120,15 @@
     </div>
   </div>
 </div>
+
+<script>
+  function confirmBeforeDelete(url){
+    let userConfirmed = confirm("Are you sure want to delete?")
+    if(userConfirmed){
+      window.location.href = url
+    }
+
+  }
+</script>
 
 {% endblock %}
