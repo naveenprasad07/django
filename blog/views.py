@@ -13,6 +13,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 import logging
 # Create your views here.
 
@@ -162,6 +163,7 @@ def reset_password(request, uidb64, token):
 
     return render(request,'blog/reset_password.html', {'form': form})
 
+@login_required
 def new_post(request):
     categories = Category.objects.all()
     form = PostForm()
@@ -176,6 +178,7 @@ def new_post(request):
 
     return render(request,'blog/new_post.html',{'categories':categories,'form':form})
 
+@login_required
 def edit_post(request,post_id):
     categories = Category.objects.all()
     post = get_object_or_404(Post, id=post_id)
@@ -190,12 +193,14 @@ def edit_post(request,post_id):
 
     return render(request,'blog/edit_post.html', {'categories': categories, 'post': post, 'form': form})
 
+@login_required
 def delete_post(request,post_id):
     post = get_object_or_404(Post,id=post_id)
     post.delete()
     messages.success(request,'Post Deleted Successfully')
     return redirect("blog:dashboard")
 
+@login_required
 def publish_post(request,post_id):
     post = get_object_or_404(Post,id=post_id)
     post.is_published = True
