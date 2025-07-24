@@ -1,43 +1,43 @@
-{% extends "blog/base.html" %} {% block content%}
-
-<div class="container-fluid">
-  <div class="row d-flex justify-content-center mt-5">
-    <div class="col-4">
-      <h3>Login</h3>
-
-      <div class="">{% include 'blog/includes/errors.html'%}</div>
-
-      <div class="my-3">
+{% extends 'blog/base.html' %} {% block content %}
+<div class="container py-5">
+  <h1 class="text-center mb-5 fw-bold text-light animate-title">Login</h1>
+  <div class="row justify-content-center">
+    <div class="col-lg-5">
+      <div class="content-box p-4 rounded bg-dark shadow-sm" data-aos="fade-up">
         <form method="post">
           {% csrf_token %}
-          <div class="form-group">
-            <label for="username" class="form-label">Username</label>
+          <div class="mb-3">
+            <label for="username" class="form-label text-light">Username</label>
             <input
               type="text"
-              class="form-control"
+              class="form-control form-control-custom"
               id="username"
               name="username"
-              value="{{ form.username.value|default:''}}"
+              value="{{ form.username.value|default:'' }}"
+              required
+              placeholder="Enter your username"
             />
           </div>
-
-          <div class="form-group">
-            <label for="password" class="form-label">Password</label>
+          <div class="mb-3">
+            <label for="password" class="form-label text-light">Password</label>
             <input
               type="password"
-              class="form-control"
+              class="form-control form-control-custom"
               id="password"
               name="password"
+              required
+              placeholder="Enter your password"
             />
           </div>
-
-          <div class="my-3 d-flex justify-content-between">
-            <a href={%url 'blog:forgot_password'%}>Forgot Password</a>
-            <button type="submit" class="btn btn-primary">Login</button>
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'blog:forgot_password' %}" class="text-custom"
+              >Forgot Password?</a
+            >
+            <button type="submit" class="btn btn-custom">Login</button>
           </div>
         </form>
       </div>
     </div>
-    {% endblock %}
   </div>
 </div>
+{% endblock %}

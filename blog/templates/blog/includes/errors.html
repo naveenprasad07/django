@@ -1,21 +1,41 @@
-<div class="d-flex flex-column">
+{% if messages or form.non_field_errors or form.errors %}
+<div class="d-flex flex-column gap-3 p-3">
   {% if messages %} {% for message in messages %}
   <div
-    class="alert {% if message.tags == 'success' %} alert-success {% else %} alert-danger {% endif %}"
+    class="alert {% if message.tags == 'success' %} alert-success-custom {% else %} alert-danger-custom {% endif %} fade-in"
     role="alert"
   >
     {{ message }}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   {% endfor %} {% endif %} {% for error in form.non_field_errors %}
-  <div class="alert alert-danger">
+  <div class="alert alert-danger-custom fade-in" role="alert">
     <span class="text-danger">{{ error }}</span>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   {% endfor %} {% for field in form %} {% if field.errors %}
-  <div class="alert alert-danger">
+  <div class="alert alert-danger-custom fade-in" role="alert">
     <span class="fw-bold">{{ field.label_tag }}</span>
     {% for error in field.errors %}
     <span class="text-danger">{{ error }}</span>
     {% endfor %}
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
   </div>
   {% endif %} {% endfor %}
 </div>
+{% endif %}

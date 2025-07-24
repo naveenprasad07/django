@@ -1,9 +1,31 @@
-{% extends 'blog/base.html'%} {% block content%}
-<div class="container-fluid">
-  <h3>About Us</h3>
-  <div class="d-flex gap-3 justify-content-center mt-5">
-    <img src="https://picsum.photos/300/300" alt="" />
-    <div class="content">{{ about_content }}</div>
+{% extends 'blog/base.html' %} {% block content %}
+<div class="container py-5">
+  <h1 class="text-center mb-5 fw-bold text-light animate-title">About Us</h1>
+  <div class="row align-items-center g-4">
+    <!-- Image Section -->
+    <div class="col-lg-6">
+      <div class="image-container">
+        <img
+          src="https://images.unsplash.com/photo-1517404215738-15263e9f9178?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          alt="About Us"
+          class="img-fluid rounded shadow-lg"
+        />
+      </div>
+    </div>
+    <!-- Content Section -->
+    <div class="col-lg-6">
+      <div class="content-box p-4 rounded bg-dark text-light shadow-sm">
+        <h3 class="fw-bold mb-3">Our Story</h3>
+        <p>
+          Welcome to our Blog, where we share insightful articles and stories to
+          inspire and inform. Our mission is to create a vibrant community of
+          readers and writers passionate about knowledge and creativity.
+        </p>
+        <a href="{% url 'blog:contact' %}" class="btn btn-custom mt-3"
+          >Get in Touch</a
+        >
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

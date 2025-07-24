@@ -1,146 +1,141 @@
-{% extends 'blog/base.html'%} {% block content%}
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-6">
-      <h3>Hi, {{user.username}}.</h3>
+{% extends 'blog/base.html' %} {% load static %} {% block content %}
+<div class="container py-5">
+  <div class="row align-items-center mb-4">
+    <div class="col-md-6">
+      <h1 class="fw-bold text-light animate-title" data-aos="fade-in">
+        Hi, {{ user.username }}!
+      </h1>
     </div>
-    <div class="col d-flex justify-content-end">
-      <div>
-        <h2>Your Groups:</h2>
-        <ul>
-          {% for group in user.groups.all %}
-          <li>{{group.name}}</li>
-          {% empty %}
-          <li>You are not a member of any groups.</li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div class="col-md-6 text-md-end">
+      <h3 class="fw-bold text-light">Your Groups:</h3>
+      <ul class="list-unstyled text-muted">
+        {% for group in user.groups.all %}
+        <li>{{ group.name }}</li>
+        {% empty %}
+        <li>You are not a member of any groups.</li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
-  <div class="row d-flex justify-content-center">
-    <div class="col-6">{% include 'blog/includes/errors.html' %}</div>
-  </div>
-  <div class="row">
-    <h2 class="mt-3">{{blog_title}}</h2>
-    {% if perms.blog.add-post %}
-    <div class="d-flex justify-content-center">
-      <a href="{%url 'blog:new_post'%}" class="btn btn-success">New Post</a>
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="fw-bold text-light animate-title" data-aos="fade-in">
+        {{ blog_title|default:"Your Posts" }}
+      </h2>
+      {% if perms.blog.add_post %}
+      <a href="{% url 'blog:new_post' %}" class="btn btn-custom mt-3"
+        >New Post</a
+      >
+      {% endif %}
     </div>
-    {% endif %}
   </div>
-  <div class="row m-3">
-    {% if page_obj %} {% for post in page_obj %}
-    <div class="col-4 mb-4">
-      <div class="card">
+  <div class="row g-4">
+    {% for post in page_obj %}
+    <div class="col-md-4">
+      <div class="card card-custom shadow-sm" data-aos="fade-up">
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-4">
-              <img
-                style="height: 300; width: 300"
-                src="{{ post.formatted_img_url }}"
-                class="img-fluid"
-                alt="..."
-              />
-            </div>
-            <div class="col-md-8">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <p class="card-text">{{ post.content |truncatechars:50 }}</p>
-              <div class="d-flex justify-content-between">
-                <a href="{% url 'blog:detail' slug=post.slug %}">Read More</a>
-                <a class="text-decoration-none text-dark fw-bold" href="#"
-                  >{{ post.category.name }}</a
-                >
-              </div>
-              <div class="d-flex justify-content-between mt-2">
-                {% if perms.blog.change_post %}
-                <a
-                  class="btn btn-sm btn-warning"
-                  href="{% url 'blog:edit_post' post_id=post.id %}"
-                  >Edit Post</a
-                >
-                {% endif %}
-                {% if perms.blog.delete_post %}
-                <button
-                  class="btn btn-sm btn-danger"
-                  onclick=confirmBeforeDelete(`{% url 'blog:delete_post' post_id=post.id %}`)
-                  >Delete Post</button
-                >
-                {% endif %}
-                {% if not post.is_published and  perms.blog.can_publish %}
-                <a href="{% url 'blog:publish_post' post_id=post.id %}" class="btn btn-success btn-sm">Publish</a>
-                {% endif %}
-              </div>
-            </div>
+          <img
+            src="{{ post.formatted_img_url|default:'https://source.unsplash.com/300x200/?blog' }}"
+            class="img-fluid rounded mb-3"
+            alt="{{ post.title }}"
+            style="object-fit: cover; height: 200px; width: 100%"
+          />
+          <h5 class="card-title text-light">{{ post.title }}</h5>
+          <p class="card-text text-muted">
+            {{ post.content|truncatechars:50 }}
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <a href="{% url 'blog:detail' slug=post.slug %}" class="text-custom"
+              >Read More</a
+            >
+            <a href="#" class="text-decoration-none text-muted fw-bold"
+              >{{ post.category.name }}</a
+            >
+          </div>
+          <div class="d-flex justify-content-between mt-3 gap-2">
+            {% if perms.blog.change_post %}
+            <a
+              href="{% url 'blog:edit_post' post_id=post.id %}"
+              class="btn btn-custom-warning btn-sm"
+              >Edit</a
+            >
+            {% endif %} {% if perms.blog.delete_post %}
+            <button
+              class="btn btn-custom-danger btn-sm"
+              onclick="confirmBeforeDelete('{% url 'blog:delete_post' post_id=post.id %}')"
+            >
+              Delete
+            </button>
+            {% endif %} {% if not post.is_published and perms.blog.can_publish
+            %}
+            <a
+              href="{% url 'blog:publish_post' post_id=post.id %}"
+              class="btn btn-custom btn-sm"
+              >Publish</a
+            >
           </div>
         </div>
       </div>
     </div>
-    {% endfor %}-{% else %}
-    <p>No Posts Available</p>
-    {% endif %}
-
-    <div class="col-12 my-3">
-      {% if page_obj.has_other_pages %}
-      <nav aria-label="Page navigation">
-        <ul class="pagination">
-          {%if page_obj.has_previous%}
-          <li class="page-item">
-            <a class="page-link" href="?page=1" aria-label="First">
-              <span aria-hidden="true">&laquo; first</span>
-            </a>
-          </li>
-          <li class="page-item">
-            <a
-              class="page-link"
-              href="?page={{page_obj.previous_page_number}}"
-              aria-label="Previous"
-            >
-              <span aria-hidden="true">previous</span>
-            </a>
-          </li>
-          {%endif%}
-
-          <li class="page-item">
-            <span class="page-link"
-              >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages
-              }}</span
-            >
-          </li>
-          {%if page_obj.has_next%}
-          <li class="page-item">
-            <a
-              class="page-link"
-              href="?page={{page_obj.next_page_number}}"
-              aria-label="Next"
-            >
-              <span aria-hidden="true">next</span>
-            </a>
-          </li>
-          <li class="page-item">
-            <a
-              class="page-link"
-              href="?page={{ page_obj.paginator.num_pages }}"
-              aria-label="Last"
-            >
-              <span aria-hidden="true">last &raquo;</span>
-            </a>
-          </li>
-          {%endif%}
-        </ul>
-      </nav>
-      {% endif %}
+    {% empty %}
+    <div class="col-12 text-center">
+      <p class="text-muted" data-aos="fade-up">No Posts Available</p>
     </div>
+    {% endfor %}
   </div>
+  <!-- Pagination -->
+  {% if page_obj.has_other_pages %}
+  <nav aria-label="Page navigation" class="mt-5">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link page-link-custom" href="?page=1" aria-label="First"
+          >« First</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link page-link-custom"
+          href="?page={{ page_obj.previous_page_number }}"
+          aria-label="Previous"
+          >Previous</a
+        >
+      </li>
+      {% endif %}
+      <li class="page-item disabled">
+        <span class="page-link page-link-custom"
+          >Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages
+          }}</span
+        >
+      </li>
+      {% if page_obj.has_next %}
+      <li class="page-item">
+        <a
+          class="page-link page-link-custom"
+          href="?page={{ page_obj.next_page_number }}"
+          aria-label="Next"
+          >Next</a
+        >
+      </li>
+      <li class="page-item">
+        <a
+          class="page-link page-link-custom"
+          href="?page={{ page_obj.paginator.num_pages }}"
+          aria-label="Last"
+          >Last »</a
+        >
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
 </div>
 
 <script>
-  function confirmBeforeDelete(url){
-    let userConfirmed = confirm("Are you sure want to delete?")
-    if(userConfirmed){
-      window.location.href = url
+  function confirmBeforeDelete(url) {
+    if (confirm("Are you sure you want to delete this post?")) {
+      window.location.href = url;
     }
-
   }
 </script>
-
 {% endblock %}

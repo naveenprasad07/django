@@ -1,3 +1,97 @@
+/* Global Styles */
 body {
-  background-color: #cccccc;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #1a1a1a, #2c2c2c);
+  color: #e0e0e0;
+  scroll-behavior: smooth;
+}
+
+/* General Utilities */
+main {
+  min-height: calc(100vh - 200px);
+}
+.text-muted {
+  color: #a0a0a0 !important;
+}
+.text-custom {
+  color: #e0e0e0;
+  text-decoration: none;
+}
+.text-custom:hover {
+  color: #34c759;
+}
+
+/* Button Styles */
+.btn-custom {
+  background: linear-gradient(135deg, #28a745, #34c759);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.btn-custom:hover {
+  background: linear-gradient(135deg, #34c759, #28a745);
+  transform: translateY(-2px);
+}
+.btn-custom-warning {
+  background: linear-gradient(135deg, #ffc107, #ffca2c);
+  color: #1a1a1a;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.btn-custom-warning:hover {
+  background: linear-gradient(135deg, #ffca2c, #ffc107);
+  transform: translateY(-2px);
+}
+.btn-custom-danger {
+  background: linear-gradient(135deg, #dc3545, #e4606d);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.btn-custom-danger:hover {
+  background: linear-gradient(135deg, #e4606d, #dc3545);
+  transform: translateY(-2px);
+}
+
+/* Card Styles */
+.card-custom {
+  background: linear-gradient(135deg, #1a1a1a, #2c2c2c);
+  border: none;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+.card-custom:hover {
+  transform: translateY(-5px);
+}
+
+/* Pagination Styles */
+.page-link-custom {
+  background: rgba(255, 255, 255, 0.05);
+  color: #e0e0e0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: background 0.3s ease, color 0.3s ease;
+}
+.page-link-custom:hover {
+  background: #34c759;
+  color: #1a1a1a;
+  border-color: #34c759;
+}
+
+/* Animation Styles */
+.animate-title {
+  animation: fadeInDown 0.8s ease-out;
+}
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
